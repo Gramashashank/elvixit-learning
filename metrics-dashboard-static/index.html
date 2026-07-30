@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Metrics Dashboard</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">Operations Center</p>
+        <h1>Infrastructure Metrics Dashboard</h1>
+        <p class="subtitle">Live telemetry for production services and infrastructure health</p>
+      </div>
+      <div class="toolbar">
+        <button id="refreshToggle" class="btn btn-primary">Pause Auto Refresh</button>
+        <button class="metric-btn active" data-metric="overview">Overview</button>
+        <button class="metric-btn" data-metric="cpu">CPU</button>
+        <button class="metric-btn" data-metric="memory">Memory</button>
+        <button class="metric-btn" data-metric="network">Network</button>
+      </div>
+    </header>
+
+    <div class="grid">
+      <button class="card metric-card active" data-metric="cpu">
+        <div class="card-title-row">
+          <h3>CPU</h3>
+          <span class="pill healthy" id="cpuStatus">Healthy</span>
+        </div>
+        <p class="metric-value" id="cpu">0%</p>
+        <div class="bar"><span id="cpuBar"></span></div>
+        <small id="cpuMeta">Average across application nodes</small>
+      </button>
+      <button class="card metric-card" data-metric="memory">
+        <div class="card-title-row">
+          <h3>Memory</h3>
+          <span class="pill healthy" id="memStatus">Healthy</span>
+        </div>
+        <p class="metric-value" id="mem">0%</p>
+        <div class="bar"><span id="memBar"></span></div>
+        <small id="memMeta">Committed memory usage</small>
+      </button>
+      <button class="card metric-card" data-metric="disk">
+        <div class="card-title-row">
+          <h3>Disk</h3>
+          <span class="pill healthy" id="diskStatus">Healthy</span>
+        </div>
+        <p class="metric-value" id="disk">0%</p>
+        <div class="bar"><span id="diskBar"></span></div>
+        <small id="diskMeta">Storage capacity in use</small>
+      </button>
+      <button class="card metric-card" data-metric="network">
+        <div class="card-title-row">
+          <h3>Network</h3>
+          <span class="pill healthy" id="netStatus">Healthy</span>
+        </div>
+        <p class="metric-value" id="net">0 Mbps</p>
+        <div class="bar"><span id="netBar"></span></div>
+        <small id="netMeta">Current throughput</small>
+      </button>
+    </div>
+
+    <section class="detail-panel">
+      <div>
+        <p class="eyebrow">Selected view</p>
+        <h3 id="selectedMetricTitle">CPU Overview</h3>
+        <p id="selectedMetricText">Core utilization is stable and within normal limits.</p>
+      </div>
+      <div class="detail-badge" id="selectedMetricBadge">Stable</div>
+    </section>
+
+    <section class="charts">
+      <div class="chart-card">
+        <h3>CPU Trend</h3>
+        <svg id="cpuChart" viewBox="0 0 320 140" role="img" aria-label="CPU trend graph"></svg>
+      </div>
+      <div class="chart-card">
+        <h3>Memory Trend</h3>
+        <svg id="memChart" viewBox="0 0 320 140" role="img" aria-label="Memory trend graph"></svg>
+      </div>
+    </section>
+
+    <section class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Server</th><th>Status</th><th>CPU</th><th>Memory</th></tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </section>
+  </div>
+
+  <script src="js/script.js"></script>
+</body>
+</html>
