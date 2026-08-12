@@ -26,8 +26,22 @@ jobs:
       - name: Display Python Version
         run: python --version
 
+      - name: Validate Python Version
+        run: |
+          VERSION=$(python -c "import sys; print(f'{sys.version_info.major}.{sys.version_info.minor}')")
+
+          if [ "$VERSION" != "3.11" ]; then
+            echo "::error::Invalid Python version. Expected Python 3.11 but found Python $VERSION"
+            echo "## ❌ Workflow Failed" >> $GITHUB_STEP_SUMMARY
+            echo "Expected Python 3.11 but found Python $VERSION" >> $GITHUB_STEP_SUMMARY
+            exit 1
+          fi
+
+          echo "Python version validation passed."
+
       - name: Check Python Syntax
-        run: python -m compileall .
+        run: |
+          python -m compileall .
 
       - name: List Repository Files
         run: ls -la
