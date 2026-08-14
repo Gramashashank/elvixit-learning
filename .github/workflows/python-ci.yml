@@ -8,7 +8,7 @@ on:
 
   pull_request:
     branches:
-      - main
+      - dev
 
 jobs:
   python-ci:
@@ -86,7 +86,4 @@ jobs:
 
       # 7. Success Message
       - name: Success Message
-        run: |
-          echo "## ✅ Workflow Completed Successfully" >> "$GITHUB_STEP_SUMMARY"
-          echo "All Python CI checks passed successfully." >> "$GITHUB_STEP_SUMMARY"
-          echo "GitHub Actions workflow completed successfully!" >> "$GITHUB_STEP_SUMMARY"
+        run: echo "GitHub Actions workflow completed successfully!"
