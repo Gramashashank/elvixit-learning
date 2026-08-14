@@ -15,36 +15,78 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+
+      # 1. Checkout Repository
       - name: Checkout Repository
         uses: actions/checkout@v6
 
+      # 2. Setup Python
       - name: Setup Python
         uses: actions/setup-python@v6
         with:
           python-version: "3.11"
 
+      # 3. Display Python Version
       - name: Display Python Version
-        run: python --version
+        run: |
+          echo "Checking Python installation..."
 
+          if ! python --version; then
+            echo "::error::Python is not installed or cannot be executed."
+            echo "## ❌ Display Python Version Failed" >> "$GITHUB_STEP_SUMMARY"
+            echo "Python could not be executed." >> "$GITHUB_STEP_SUMMARY"
+            exit 1
+          fi
+
+          python --version
+
+      # 4. Validate Python Version
       - name: Validate Python Version
         run: |
+          echo "Validating Python version..."
+
           VERSION=$(python -c "import sys; print(f'{sys.version_info.major}.{sys.version_info.minor}')")
 
           if [ "$VERSION" != "3.11" ]; then
             echo "::error::Invalid Python version. Expected Python 3.11 but found Python $VERSION"
-            echo "## ❌ Workflow Failed" >> $GITHUB_STEP_SUMMARY
-            echo "Expected Python 3.11 but found Python $VERSION" >> $GITHUB_STEP_SUMMARY
+            echo "## ❌ Python Version Validation Failed" >> "$GITHUB_STEP_SUMMARY"
+            echo "Expected Python 3.11 but found Python $VERSION" >> "$GITHUB_STEP_SUMMARY"
             exit 1
           fi
 
           echo "Python version validation passed."
 
+      # 5. Check Python Syntax
       - name: Check Python Syntax
         run: |
-          python -m compileall .
+          echo "Checking Python syntax..."
 
+          if ! python -m compileall .; then
+            echo "::error::Python syntax validation failed."
+            echo "## ❌ Python Syntax Check Failed" >> "$GITHUB_STEP_SUMMARY"
+            echo "One or more Python files contain syntax errors." >> "$GITHUB_STEP_SUMMARY"
+            exit 1
+          fi
+
+          echo "Python syntax validation passed."
+
+      # 6. List Repository Files
       - name: List Repository Files
-        run: ls -la
+        run: |
+          echo "Listing repository files..."
 
+          if ! ls -la; then
+            echo "::error::Unable to list repository files."
+            echo "## ❌ Repository File Listing Failed" >> "$GITHUB_STEP_SUMMARY"
+            echo "The repository files could not be listed." >> "$GITHUB_STEP_SUMMARY"
+            exit 1
+          fi
+
+          echo "Repository files listed successfully."
+
+      # 7. Success Message
       - name: Success Message
-        run: echo "GitHub Actions workflow completed successfully!"
+        run: |
+          echo "## ✅ Workflow Completed Successfully" >> "$GITHUB_STEP_SUMMARY"
+          echo "All Python CI checks passed successfully." >> "$GITHUB_STEP_SUMMARY"
+          echo "GitHub Actions workflow completed successfully!" >> "$GITHUB_STEP_SUMMARY"
