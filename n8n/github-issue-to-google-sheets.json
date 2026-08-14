@@ -1,0 +1,240 @@
+{
+  "name": "My workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "bae8c4b4-4803-4576-b544-831e14e544f0",
+              "name": "issue_number",
+              "value": "={{ $json.body.issue.number }}",
+              "type": "string"
+            },
+            {
+              "id": "ac6bd7f1-0cbd-4d9f-81e1-54a6851db4bf",
+              "name": "issue_title",
+              "value": "={{ $json.body.issue.title }}",
+              "type": "string"
+            },
+            {
+              "id": "2d26323d-6ce2-4923-b94c-fa7630a1d85d",
+              "name": "author",
+              "value": "={{ $json.body.issue.user.login }}",
+              "type": "string"
+            },
+            {
+              "id": "449d950e-cfcc-4799-8d25-3d59e37ec2cc",
+              "name": "repository",
+              "value": "={{ $json.body.repository.full_name }}",
+              "type": "string"
+            },
+            {
+              "id": "13658ead-3a95-4827-bfec-697970498a41",
+              "name": "issue_url",
+              "value": "={{ $json.body.issue.html_url }}",
+              "type": "string"
+            },
+            {
+              "id": "1f220afd-798f-4435-a944-34addbeb698e",
+              "name": "action",
+              "value": "={{ $json.body.action }}",
+              "type": "string"
+            },
+            {
+              "id": "1c6dd4f6-42c9-4f61-a442-4f2a28e05793",
+              "name": "created_at",
+              "value": "={{ $json.body.issue.created_at }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        224,
+        0
+      ],
+      "id": "6108809e-f60c-4f4b-9519-9d9999821d25",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "github-issue",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "e9a55a88-81b8-4920-b931-20dd461c3917",
+      "name": "Webhook",
+      "webhookId": "6dee1fa4-3fb6-4369-bfbb-a0acf21e7d0e"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1fvJLjOBGZJj_iRawmq3hvIv3lv9drXJffnzRirqCRbY",
+          "mode": "list",
+          "cachedResultName": "GitHub Issues Tracker",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1fvJLjOBGZJj_iRawmq3hvIv3lv9drXJffnzRirqCRbY/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Issues",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1fvJLjOBGZJj_iRawmq3hvIv3lv9drXJffnzRirqCRbY/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "issue_number": "={{ $json.issue_number }}",
+            "issue_title": "={{ $json.issue_title }}",
+            "repository": "={{ $json.repository }}",
+            "author": "={{ $json.author }}",
+            "issue_url": "={{ $json.issue_url }}",
+            "action": "={{ $json.action }}",
+            "created_at": "={{ $json.created_at }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "issue_number",
+              "displayName": "issue_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "issue_title",
+              "displayName": "issue_title",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "author",
+              "displayName": "author",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "repository",
+              "displayName": "repository",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "issue_url",
+              "displayName": "issue_url",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "action",
+              "displayName": "action",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "created_at",
+              "displayName": "created_at",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        448,
+        0
+      ],
+      "id": "b5f80a8c-0587-4a6c-905f-acde35329b17",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "2kEA8zHe6wqVlqtq",
+          "name": "Google Sheets account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "d482cc35-cff8-4313-a100-bae6ad7c7f01",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "d15d5be40fbb50c5ea36356ff62b25d704394209dcad1e1728fcc58182257e2f"
+  },
+  "nodeGroups": [],
+  "id": "1ocz12vKmDc33iOG",
+  "tags": []
+}
