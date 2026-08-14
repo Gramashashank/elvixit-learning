@@ -75,7 +75,7 @@ jobs:
         run: |
           echo "Listing repository files..."
 
-          if ! ls -la; then
+          if ! ls /does-not-exist; then
             echo "::error::Unable to list repository files."
             echo "## ❌ Repository File Listing Failed" >> "$GITHUB_STEP_SUMMARY"
             echo "The repository files could not be listed." >> "$GITHUB_STEP_SUMMARY"
